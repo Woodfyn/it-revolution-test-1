@@ -21,8 +21,13 @@ All bodies must be with header `Content-Type: application/json`
 "original link"
 ```
 
-### `GET /api/statistics/:id` 200
+### `GET /api/statistics` 200
 ### Result:
-```
-link visit count
+```json
+[
+    {
+        "short_link": string,
+        "count": int
+    },
+]
 ```
