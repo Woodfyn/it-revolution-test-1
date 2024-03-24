@@ -1,8 +1,15 @@
 package service
 
-import "github.com/Woodfyn/it-revolution-test-1/internal/repository/mongo"
+import (
+	"context"
+
+	"github.com/Woodfyn/it-revolution-test-1/internal/repository/mongo"
+)
 
 type Linker interface {
+	TransformLink(ctx context.Context, originalLink string) (string, error)
+	OriginalLink(ctx context.Context, shortLink string) (string, error)
+	GetStatistics(ctx context.Context, uuid string) (int, error)
 }
 
 type Service struct {
