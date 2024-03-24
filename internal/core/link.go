@@ -14,7 +14,7 @@ type CreateLinkRequest struct {
 }
 
 func NewShortLink(uuid string) string {
-	shorUri := fmt.Sprintf("http://localhost:8080/%s", uuid)
+	shorUri := fmt.Sprintf("http://localhost:3000/%s", uuid)
 
 	return shorUri
 }
