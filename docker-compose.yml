@@ -9,7 +9,7 @@ services:
       - "8080:8080"
     # restart: always
     volumes:
-      - .env:/root/.env
+      - ./.env:/root/.env
 
     networks:
       - application
@@ -18,7 +18,7 @@ services:
     # restart: always
     image: mongo:latest
     volumes:
-      - ./data:/data/db
+      - ./.data:/data/db
     ports:
       - 27017:27017
     env_file:
