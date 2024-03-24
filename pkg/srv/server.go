@@ -2,7 +2,7 @@ package srv
 
 import (
 	"context"
-	"github.com/gorilla/handlers"
+	"github.com/rs/cors"
 	"net/http"
 	"time"
 )
@@ -12,10 +12,17 @@ type Server struct {
 }
 
 func (s *Server) Run(port string, handler http.Handler) error {
-	origins := handlers.AllowedOrigins([]string{"*"})
+	corsedHandler := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PATCH", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}).Handler(handler)
 	s.httpServer = &http.Server{
 		Addr:           ":" + port,
-		Handler:        handlers.CORS(origins)(handler),
+		Handler:        corsedHandler,
 		MaxHeaderBytes: 1 << 20, // 1 MB
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
