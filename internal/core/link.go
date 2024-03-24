@@ -18,3 +18,8 @@ func NewShortLink(uuid string) string {
 
 	return shorUri
 }
+
+type DataResponse struct {
+	ShortLink string `json:"short_link"`
+	Count     int    `json:"count"`
+}

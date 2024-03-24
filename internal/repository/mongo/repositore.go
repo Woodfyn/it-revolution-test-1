@@ -11,7 +11,7 @@ type Linker interface {
 	AddLink(ctx context.Context, link core.Link) (string, error)
 	GetByOriginalLink(ctx context.Context, originalLink string) (string, error)
 	GetByUUID(ctx context.Context, uuid string) (string, error)
-	GetStatistics(ctx context.Context, uuid string) (int, error)
+	GetStatistics(ctx context.Context) ([]core.DataResponse, error)
 }
 
 type Repository struct {

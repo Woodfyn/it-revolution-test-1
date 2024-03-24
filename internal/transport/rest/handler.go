@@ -23,7 +23,7 @@ func (h *Handler) InitRoutes() *mux.Router {
 	{
 		api.HandleFunc("/transform", h.TransformLink).Methods(http.MethodPost)
 		api.HandleFunc("/original/{uuid}", h.OriginalLink).Methods(http.MethodGet)
-		api.HandleFunc("/statistics/{uuid}", h.GetStatistics).Methods(http.MethodGet)
+		api.HandleFunc("/statistics", h.GetStatistics).Methods(http.MethodGet)
 	}
 
 	return r
