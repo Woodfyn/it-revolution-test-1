@@ -12,10 +12,12 @@ type Server struct {
 }
 
 func (s *Server) Run(port string, handler http.Handler) error {
+	credentials := handlers.AllowCredentials()
+	methods := handlers.AllowedMethods([]string{"POST", "OPTIONS", "GET"})
 	origins := handlers.AllowedOrigins([]string{"*"})
 	s.httpServer = &http.Server{
 		Addr:           ":" + port,
-		Handler:        handlers.CORS(origins)(handler),
+		Handler:        handlers.CORS(origins, credentials, methods)(handler),
 		MaxHeaderBytes: 1 << 20, // 1 MB
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
