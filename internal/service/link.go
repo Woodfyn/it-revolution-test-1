@@ -21,11 +21,12 @@ func NewLink(repo mongo.Linker) *Link {
 func (l *Link) TransformLink(ctx context.Context, originalLink string) (string, error) {
 
 	uuid := uuid.NewString()
+	shortUuid := uuid[:4]
 
 	link := core.Link{
-		UUID:         uuid,
+		UUID:         shortUuid,
 		OriginalLink: originalLink,
-		ShortLink:    core.NewShortLink(uuid),
+		ShortLink:    core.NewShortLink(shortUuid),
 		Count:        1,
 	}
 

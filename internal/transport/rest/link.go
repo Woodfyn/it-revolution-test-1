@@ -32,7 +32,7 @@ func (h *Handler) TransformLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responce, err := json.Marshal(shortLink)
+	response, err := json.Marshal(shortLink)
 	if err != nil {
 		slog.Info("transformLink", "err write body", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -40,7 +40,7 @@ func (h *Handler) TransformLink(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(responce)
+	w.Write(response)
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -59,7 +59,7 @@ func (h *Handler) OriginalLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responce, err := json.Marshal(originalLink)
+	response, err := json.Marshal(originalLink)
 	if err != nil {
 		slog.Info("originalLink", "err write body", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -67,7 +67,7 @@ func (h *Handler) OriginalLink(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(responce)
+	w.Write(response)
 	w.WriteHeader(http.StatusOK)
 }
 func (h *Handler) GetStatistics(w http.ResponseWriter, r *http.Request) {
@@ -85,7 +85,7 @@ func (h *Handler) GetStatistics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responce, err := json.Marshal(count)
+	response, err := json.Marshal(count)
 	if err != nil {
 		slog.Info("originalLink", "err write body", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -93,7 +93,7 @@ func (h *Handler) GetStatistics(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(responce)
+	w.Write(response)
 	w.WriteHeader(http.StatusOK)
 }
 
