@@ -26,8 +26,8 @@ All bodies must be with header `Content-Type: application/json`
 ```json
 [
     {
-        "short_link": string,
-        "count": int
+        "short_link": "string",
+        "count": "int"
     },
 ]
 ```
