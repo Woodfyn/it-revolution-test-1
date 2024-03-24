@@ -59,10 +59,12 @@ func Run() {
 	//init server
 	srv := new(srv.Server)
 
-	if err := srv.Run("8080", handler.InitRoutes()); err != nil {
-		slog.Error("failed to run server", err)
-		panic(err)
-	}
+	go func() {
+		if err := srv.Run("8080", handler.InitRoutes()); err != nil {
+			slog.Error("failed to run server", err)
+			panic(err)
+		}
+	}()
 
 	slog.Info("server started...")
 
