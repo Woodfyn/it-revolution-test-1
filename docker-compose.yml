@@ -4,7 +4,8 @@ services:
   app:
     build: .
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     ports:
       - "8080:8080"
     # restart: always
@@ -25,6 +26,8 @@ services:
       - .env
     networks:
       - application
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
 
 networks:
   application:
