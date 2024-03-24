@@ -44,6 +44,6 @@ func (l *Link) OriginalLink(ctx context.Context, uuid string) (string, error) {
 	return l.repo.GetByUUID(ctx, uuid)
 }
 
-func (l *Link) GetStatistics(ctx context.Context, uuid string) (int, error) {
-	return l.repo.GetStatistics(ctx, uuid)
+func (l *Link) GetStatistics(ctx context.Context) ([]core.DataResponse, error) {
+	return l.repo.GetStatistics(ctx)
 }

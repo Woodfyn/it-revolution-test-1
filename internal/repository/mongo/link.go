@@ -6,6 +6,7 @@ import (
 	"github.com/Woodfyn/it-revolution-test-1/internal/core"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Link struct {
@@ -67,20 +68,33 @@ func (l *Link) GetByUUID(ctx context.Context, uuid string) (string, error) {
 	return link.OriginalLink, nil
 }
 
-func (l *Link) GetStatistics(ctx context.Context, uuid string) (int, error) {
-	var link core.Link
+func (l *Link) GetStatistics(ctx context.Context) ([]core.DataResponse, error) {
+	var statistics []core.DataResponse
 
-	res := l.db.FindOne(ctx, bson.M{"_id": uuid})
-	if res.Err() != nil {
-		if res.Err() == mongo.ErrNoDocuments {
-			return 0, core.ErrNotFoundDocs
+	findOptions := options.Find()
+
+	res, err := l.db.Find(ctx, bson.D{{}}, findOptions)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Close(ctx)
+
+	for res.Next(ctx) {
+		var link core.Link
+
+		if err := res.Decode(&link); err != nil {
+			return nil, err
 		}
-		return 0, res.Err()
+
+		statistics = append(statistics, core.DataResponse{
+			ShortLink: link.ShortLink,
+			Count:     link.Count,
+		})
 	}
 
-	if err := res.Decode(&link); err != nil {
-		return 0, err
+	if err := res.Err(); err != nil {
+		return nil, err
 	}
 
-	return link.Count, nil
+	return statistics, nil
 }

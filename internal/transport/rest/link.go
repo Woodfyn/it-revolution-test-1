@@ -71,21 +71,14 @@ func (h *Handler) OriginalLink(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 func (h *Handler) GetStatistics(w http.ResponseWriter, r *http.Request) {
-	uuid, err := getIdFromRequest(r)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		slog.Info("getStatistics", "err get shortLink", err)
-		return
-	}
-
-	count, err := h.service.Linker.GetStatistics(r.Context(), uuid)
+	data, err := h.service.Linker.GetStatistics(r.Context())
 	if err != nil {
 		slog.Info("originalLink", "err service call", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	response, err := json.Marshal(count)
+	response, err := json.Marshal(data)
 	if err != nil {
 		slog.Info("originalLink", "err write body", err)
 		w.WriteHeader(http.StatusInternalServerError)
