@@ -2,6 +2,7 @@ package srv
 
 import (
 	"context"
+	"github.com/gorilla/handlers"
 	"net/http"
 	"time"
 )
@@ -11,9 +12,10 @@ type Server struct {
 }
 
 func (s *Server) Run(port string, handler http.Handler) error {
+	origins := handlers.AllowedOrigins([]string{"*"})
 	s.httpServer = &http.Server{
 		Addr:           ":" + port,
-		Handler:        handler,
+		Handler:        handlers.CORS(origins)(handler),
 		MaxHeaderBytes: 1 << 20, // 1 MB
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
