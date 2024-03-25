@@ -7,12 +7,14 @@ All bodies must be with header `Content-Type: application/json`
 #### Body:
 ```json
 {
-  "original_link": "string"
+    "original_link": "string"
 }
 ```
 #### Result:
 ```json
-"short link"
+{
+    "short link"
+}
 ```
 
 ### `GET /api/original/:id` 200
@@ -26,8 +28,17 @@ All bodies must be with header `Content-Type: application/json`
 ```json
 [
     {
-        "short_link": "string",
+        "created_at": "string",
         "count": "int"
     },
 ]
+```
+
+### `GET /api/statistics/:id` 200
+### Result:
+```json
+{
+    "created_at": "string",
+    "count": "int"
+}
 ```
