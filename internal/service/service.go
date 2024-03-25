@@ -10,7 +10,8 @@ import (
 type Linker interface {
 	TransformLink(ctx context.Context, originalLink string) (string, error)
 	OriginalLink(ctx context.Context, shortLink string) (string, error)
-	GetStatistics(ctx context.Context) ([]core.DataResponse, error)
+	GetAllStatistics(ctx context.Context) ([]core.DataResponse, error)
+	GetStatisticsById(ctx context.Context, uuid string) (core.DataResponse, error)
 }
 
 type Service struct {

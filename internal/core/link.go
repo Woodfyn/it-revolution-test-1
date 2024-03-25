@@ -7,6 +7,7 @@ type Link struct {
 	OriginalLink string `bson:"original_link" json:"original_link"`
 	ShortLink    string `bson:"short_link" json:"short_link"`
 	Count        int    `bson:"count" json:"count"`
+	CreatedAt    string `bson:"created_at" json:"created_at"`
 }
 
 type CreateLinkRequest struct {
@@ -20,6 +21,6 @@ func NewShortLink(uuid string) string {
 }
 
 type DataResponse struct {
-	ShortLink string `json:"short_link"`
+	CreatedAt string `json:"created_at"`
 	Count     int    `json:"count"`
 }

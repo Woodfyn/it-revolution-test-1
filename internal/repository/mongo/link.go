@@ -25,23 +25,23 @@ func (l *Link) AddLink(ctx context.Context, link core.Link) (string, error) {
 	return link.ShortLink, nil
 }
 
-func (l *Link) GetByOriginalLink(ctx context.Context, originalLink string) (string, error) {
-	var link core.Link
+// func (l *Link) GetByOriginalLink(ctx context.Context, originalLink string) (string, error) {
+// 	var link core.Link
 
-	res := l.db.FindOne(ctx, bson.M{"original_link": originalLink})
-	if res.Err() != nil {
-		if res.Err() == mongo.ErrNoDocuments {
-			return "", core.ErrNotFoundDocs
-		}
-		return "", res.Err()
-	}
+// 	res := l.db.FindOne(ctx, bson.M{"original_link": originalLink})
+// 	if res.Err() != nil {
+// 		if res.Err() == mongo.ErrNoDocuments {
+// 			return "", core.ErrNotFoundDocs
+// 		}
+// 		return "", res.Err()
+// 	}
 
-	if err := res.Decode(&link); err != nil {
-		return "", err
-	}
+// 	if err := res.Decode(&link); err != nil {
+// 		return "", err
+// 	}
 
-	return link.ShortLink, nil
-}
+// 	return link.ShortLink, nil
+// }
 
 func (l *Link) GetByUUID(ctx context.Context, uuid string) (string, error) {
 	var link core.Link
@@ -68,7 +68,7 @@ func (l *Link) GetByUUID(ctx context.Context, uuid string) (string, error) {
 	return link.OriginalLink, nil
 }
 
-func (l *Link) GetStatistics(ctx context.Context) ([]core.DataResponse, error) {
+func (l *Link) GetAllStatistics(ctx context.Context) ([]core.DataResponse, error) {
 	var statistics []core.DataResponse
 
 	findOptions := options.Find()
@@ -87,7 +87,7 @@ func (l *Link) GetStatistics(ctx context.Context) ([]core.DataResponse, error) {
 		}
 
 		statistics = append(statistics, core.DataResponse{
-			ShortLink: link.ShortLink,
+			CreatedAt: link.CreatedAt,
 			Count:     link.Count,
 		})
 	}
@@ -97,4 +97,25 @@ func (l *Link) GetStatistics(ctx context.Context) ([]core.DataResponse, error) {
 	}
 
 	return statistics, nil
+}
+
+func (l *Link) GetStatisticsById(ctx context.Context, uuid string) (core.DataResponse, error) {
+	var link core.Link
+
+	res := l.db.FindOne(ctx, bson.M{"_id": uuid})
+	if res.Err() != nil {
+		if res.Err() == mongo.ErrNoDocuments {
+			return core.DataResponse{}, core.ErrNotFoundDocs
+		}
+		return core.DataResponse{}, res.Err()
+	}
+
+	if err := res.Decode(&link); err != nil {
+		return core.DataResponse{}, err
+	}
+
+	return core.DataResponse{
+		CreatedAt: link.CreatedAt,
+		Count:     link.Count,
+	}, nil
 }

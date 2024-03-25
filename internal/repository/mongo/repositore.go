@@ -9,9 +9,10 @@ import (
 
 type Linker interface {
 	AddLink(ctx context.Context, link core.Link) (string, error)
-	GetByOriginalLink(ctx context.Context, originalLink string) (string, error)
+	// GetByOriginalLink(ctx context.Context, originalLink string) (string, error)
 	GetByUUID(ctx context.Context, uuid string) (string, error)
-	GetStatistics(ctx context.Context) ([]core.DataResponse, error)
+	GetAllStatistics(ctx context.Context) ([]core.DataResponse, error)
+	GetStatisticsById(ctx context.Context, uuid string) (core.DataResponse, error)
 }
 
 type Repository struct {
