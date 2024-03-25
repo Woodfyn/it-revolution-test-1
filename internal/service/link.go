@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/Woodfyn/it-revolution-test-1/internal/core"
 	"github.com/Woodfyn/it-revolution-test-1/internal/repository/mongo"
@@ -28,11 +29,7 @@ func (l *Link) TransformLink(ctx context.Context, originalLink string) (string, 
 		OriginalLink: originalLink,
 		ShortLink:    core.NewShortLink(shortUuid),
 		Count:        1,
-	}
-
-	shortLinkCheck, err := l.repo.GetByOriginalLink(ctx, originalLink)
-	if err == nil {
-		return shortLinkCheck, nil
+		CreatedAt:    time.Now().Add(time.Hour * 2).Format(time.DateTime),
 	}
 
 	shortLink, err := l.repo.AddLink(ctx, link)
@@ -44,6 +41,10 @@ func (l *Link) OriginalLink(ctx context.Context, uuid string) (string, error) {
 	return l.repo.GetByUUID(ctx, uuid)
 }
 
-func (l *Link) GetStatistics(ctx context.Context, uuid string) (int, error) {
-	return l.repo.GetStatistics(ctx, uuid)
+func (l *Link) GetAllStatistics(ctx context.Context) ([]core.DataResponse, error) {
+	return l.repo.GetAllStatistics(ctx)
+}
+
+func (l *Link) GetStatisticsById(ctx context.Context, uuid string) (core.DataResponse, error) {
+	return l.repo.GetStatisticsById(ctx, uuid)
 }

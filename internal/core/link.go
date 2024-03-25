@@ -7,6 +7,7 @@ type Link struct {
 	OriginalLink string `bson:"original_link" json:"original_link"`
 	ShortLink    string `bson:"short_link" json:"short_link"`
 	Count        int    `bson:"count" json:"count"`
+	CreatedAt    string `bson:"created_at" json:"created_at"`
 }
 
 type CreateLinkRequest struct {
@@ -14,7 +15,12 @@ type CreateLinkRequest struct {
 }
 
 func NewShortLink(uuid string) string {
-	shorUri := fmt.Sprintf("http://localhost:8080/%s", uuid)
+	shorUri := fmt.Sprintf("http://localhost:3000/%s", uuid)
 
 	return shorUri
+}
+
+type DataResponse struct {
+	CreatedAt string `json:"created_at"`
+	Count     int    `json:"count"`
 }
